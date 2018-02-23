@@ -45,10 +45,6 @@ results from a web API.  We're going to use two command line tools:
 
 - `curl`: a Unix command for transferring data from or to an Internet server
   without human interaction. We will use `curl` to retrieve data from APIs.
-- `jq`: a command-line tool that allows us to parse data in JSON (JavaScript
-  Object Notation) format. JSON is great for machines to understand but
-sometimes looks like gobbledygook to humans. We will use `jq` to 'pretty print'
-JSON data.
 
 # Using an API via a DOI
 
@@ -85,28 +81,6 @@ You can save this metadata to a file by typing
 ```
 $ curl -LH "Accept:application/vnd.datacite.datacite+json"
 https://doi.org/10.14291/tccon.ggg2014.ascension01.R0/1149285 > datacite_metadata.json
-```
-
-#APIs and formatting
-
-Some APIs do not return JSON that is easy to read.  Let's take a look at DOI
-metadata from CrossRef
-
-```
-$ curl https://api.crossref.org/works/10.1109/mwsym.2015.7166997 -o metadata.json
-```
-
-This formatting is ugly and hard to read.  Let's use jq to make the content
-pretty
-
-```
-$ jq . metadata.json > metadata_pretty.json
-```
-
-You can also investigate an API in one step by typing
-
-```
-$ curl https://api.crossref.org/works/10.1109/mwsym.2015.7166997 | jq
 ```
 
 Much more detail about DOIs and APIs is available in this [AuthorCarpentry Lesson](https://authorcarpentry.github.io/dois-citation-data)
