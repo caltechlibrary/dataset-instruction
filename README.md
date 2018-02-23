@@ -32,8 +32,8 @@ You'll need to have a bash shell installed, you can follow
 
 Your computer will also need to have running the open source json parsing tool, jQuery, available at:
  [jq json parser](https://stedolan.github.io/jq/) to be able to 'pretty print' json data retrieved from API services
-and dataset, the universal document converter, available at:
-[dataset](https://github.com/caltechlibrary/dataset/).
+and dataset, a data management tool developed by Caltech Library, available 
+[here](https://github.com/caltechlibrary/dataset/).
 
 ## Cheat Sheet
 jQuery (jq) Quick API Reference, https://oscarotero.com/jquery/
