@@ -46,7 +46,7 @@ results from a web API.  We're going to use two command line tools:
 - `curl`: a unix command for transferring data from or to an Internet server without human interaction. We will use `curl` to retrieve data from a DOI database and to negotiate for data in the format most convenient for our use.
 - `jq`: a command-line tool that allows us to parse data in JSON (Javascript Object Notation) format. JSON is great for machines to understand but looks like gobbleygook to most humans. We will use `jq` to 'pretty print' data we retrieve from the DOI database
 
-# Using an API
+# Using an APIa via a DOI
 
 First, check that you are on your desktop.  Type
 
@@ -65,7 +65,7 @@ Now we'll use curl to grab web content.  Note that you can copy and paste these
 commands into your terminal window to save typing.
 
 ```
-$ curl -LH "Accept:application/vnd.datacite.datacite+json" https://doi.org/10.14291/tccon.ggg2014.ascension01.R0/1149285 -o metadata.json
+$ curl -LH "Accept:application/vnd.datacite.datacite+json" https://doi.org/10.14291/tccon.ggg2014.ascension01.R0/1149285
 ```
 
 The -H option provides headers and the -L option tells curl to follow
@@ -74,7 +74,17 @@ redirects.  See what you get when you leave off the -L
 Most DOIs have a special property that you can access an API by just using the
 normal DOI URL.  In this case we're requesting DataCite standard json file by
 the text in the header.  You can look at all the possible formats at the
-[DataCite Documentation](https://support.datacite.org/docs/datacite-content-resolver)
+[DataCite
+Documentation](https://support.datacite.org/docs/datacite-content-resolver).
+
+You can save this metadata to a file by typing
+
+```
+$ curl -LH "Accept:application/vnd.datacite.datacite+json"
+https://doi.org/10.14291/tccon.ggg2014.ascension01.R0/1149285 > metadata.json
+```
+
+#APIs and formatting
 
 This formatting is ugly and hard to read.  Let's use jq to make the content
 pretty
