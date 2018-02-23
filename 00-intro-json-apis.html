@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Caltech Library</title>
+    <link rel="stylesheet" href="css/site.css">
+</head>
+<body>
+<header>
+<a href="http://library.caltech.edu"><img src="img/liblogo.gif" alt="Library logo"></a>
+</header>
+<nav>
+<ul>
+<li><a href=".">Lesson</a></li>
+<li><a href="00-intro-json-apis.html">Intro</a></li>
+<li><a href="01-basic-dataset.html">Basic Dataset</a></li>
+<li><a href="02-combining-apis.html">Combining APIs with Dataset</a></li>
+<li><a href="mailto:library@caltech.edu">Contact Us</a></li>
+</ul>
+
+</nav>
+
+<section>
+<h1>Basic JSON and Web APIs</h1>
+
+<p>20 Minutes</p>
+
+<hr />
+
+<h2>Learning Objectives</h2>
+
+<ul>
+<li>Identify the structure of a JSON file</li>
+<li>Gather data from an API</li>
+</ul>
+
+<hr />
+
+<h2>Introduction</h2>
+
+<p>JSON (JavaScript Object Notation) is a ubiqutious data format among web data
+services.  Although JavaScript is in the name, most programming languages can
+read and write JSON files.  The format uses human-readable text, so it&rsquo;s easy
+to see the data.  Objects in JSON are based on keys and values, surrounded by
+braces and separated by a colon:</p>
+
+<pre><code>$ { key : value }
+</code></pre>
+
+<p>You can have multiple values, separated by commas:</p>
+
+<pre><code>$ { key1 : value1 },
+$ { key2 : value2 }
+</code></pre>
+
+<p>You can also have arrays of values, designated by brackets:</p>
+
+<pre><code>$ { &quot;affiliations&quot;: [
+$        &quot;California Institute of Technology, Pasadena, CA (US)&quot;,
+$        &quot;National Institute of Meteorological Sciences, Seogwipo-si (KR)&quot;
+$                    ] }
+</code></pre>
+
+<p>By combining these elements you can generate complex data structures that both
+humans and machines can easily read.  Now we&rsquo;re goint to take a look at the
+results from a web API.  We&rsquo;re going to use two command line tools:</p>
+
+<ul>
+<li><code>curl</code>: a unix command for transferring data from or to an Internet server without human interaction. We will use <code>curl</code> to retrieve data from a DOI database and to negotiate for data in the format most convenient for our use.</li>
+<li><code>jq</code>: a command-line tool that allows us to parse data in JSON (Javascript Object Notation) format. JSON is great for machines to understand but looks like gobbleygook to most humans. We will use <code>jq</code> to &lsquo;pretty print&rsquo; data we retrieve from the DOI database</li>
+</ul>
+
+<h1>Using an API</h1>
+
+<p>First, check that you are on your desktop.  Type</p>
+
+<pre><code>$ pwd
+</code></pre>
+
+<p>This will print your location to the terminal.  In most cases you can move to the
+desktop by typing</p>
+
+<pre><code>$ cd ~/Desktop
+</code></pre>
+
+<p>Now we&rsquo;ll use curl to grab web content.  Note that you can copy and paste these
+commands into your terminal window to save typing.</p>
+
+<pre><code>$ curl -LH &quot;Accept:application/vnd.datacite.datacite+json&quot; https://doi.org/10.14291/tccon.ggg2014.ascension01.R0/1149285 -o metadata.json
+</code></pre>
+
+<p>The -H option provides headers and the -L option tells curl to follow
+redirects.  See what you get when you leave off the -L</p>
+
+<p>Most DOIs have a special property that you can access an API by just using the
+normal DOI URL.  In this case we&rsquo;re requesting DataCite standard json file by
+the text in the header.  You can look at all the possible formats at the
+<a href="https://support.datacite.org/docs/datacite-content-resolver">DataCite Documentation</a></p>
+
+<p>This formatting is ugly and hard to read.  Let&rsquo;s use jq to make the content
+pretty</p>
+
+<pre><code>$ jq . metadata.json &gt; metadata_pretty.json
+</code></pre>
+
+<p>You can also investigate an API in one step by typing</p>
+
+<pre><code>$ curl -LH &quot;Accept:application/vnd.datacite.datacite+json&quot; https://doi.org/10.14291/tccon.ggg2014.ascension01.R0/1149285 | jq
+</code></pre>
+
+<p>Much more detail about DOIs and APIs is available in this <a href="https://authorcarpentry.github.io/dois-citation-data">AuthorCarpentry Lesson</a></p>
+
+<p>Next: <a href="01-basic-dataset.html">Dataset Basics</a></p>
+
+</section>
+
+<footer>
+<span>&copy; Lesson Contributors</span>
+<span><a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img
+alt="Creative Commons License" style="vertical-align: middle;"
+src="https://i.creativecommons.org/l/by/4.0/80x15.png" /></a></span>
+<span>This work is licensed under a <a rel="license"
+href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution
+4.0 International License</a></span>
+</footer>
+</body>
+</html>

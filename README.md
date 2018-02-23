@@ -1,0 +1,48 @@
+Training on Dataset tools
+=======
+
+*Content Contributors: Robert Doiel, Tom Morrell*
+
+*Lesson Maintainers: Robert Doiel, Tom Morrell*
+
+**Lesson status: In Development**
+
+
+## What you will learn:
+
+* Identify the structure of a JSON file
+* Gather data from an API
+* Use the basic functions of dataset
+* Combine data using dataset to answer a question, such as determining the
+twitter mentions of papers by a Caltech faculty member
+
+## Topics:
+
+1. [Intro](00-intro-json-apis.html)
+2. [Register a DOI](01-basic-dataset.html)
+3. [DOI Metadata](02-combining-apis.html)
+
+## Requirements
+
+This lesson requires basic familiarity with the bash shell, similar to the
+experience gained through the
+[Software Carpentry shell lesson](http://swcarpentry.github.io/shell-novice/).
+You'll need to have a bash shell installed, you can follow
+[these instructions](https://swcarpentry.github.io/workshop-template/#setup).
+
+Your computer will also need to have running the open source json parsing tool, jQuery, available at:
+ [jq json parser](https://stedolan.github.io/jq/) to be able to 'pretty print' json data retrieved from API services
+and dataset, the universal document converter, available at:
+[dataset](https://github.com/caltechlibrary/dataset/).
+
+## Cheat Sheet
+jQuery (jq) Quick API Reference, https://oscarotero.com/jquery/
+
+## References
+
++ curl documentation, https://curl.haxx.se/
++ CrossRef REST API, https://github.com/CrossRef/rest-api-doc
++ CrossRef Content Negotiation, https://citation.crosscite.org/docs.html
++ jq online testing tool, https://jqplay.org/
++ json documentation, https://www.json.org
++ Parsing JSON with jq, http://www.compciv.org/recipes/cli/jq-for-parsing-json/
