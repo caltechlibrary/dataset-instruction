@@ -13,7 +13,7 @@
 
 ## Introduction
 
-JSON (JavaScript Object Notation) is a ubiqutious data format among web data
+JSON (JavaScript Object Notation) is a ubiquitous data format among web data
 services.  Although JavaScript is in the name, most programming languages can
 read and write JSON files.  The format uses human-readable text, so it's easy
 to see the data.  Objects in JSON are based on keys and values, surrounded by
@@ -40,13 +40,17 @@ You can also have arrays of values, designated by brackets:
 ```
 
 By combining these elements you can generate complex data structures that both
-humans and machines can easily read.  Now we're goint to take a look at the
+humans and machines can easily read.  Now we're going to take a look at the
 results from a web API.  We're going to use two command line tools:
 
-- `curl`: a unix command for transferring data from or to an Internet server without human interaction. We will use `curl` to retrieve data from a DOI database and to negotiate for data in the format most convenient for our use.
-- `jq`: a command-line tool that allows us to parse data in JSON (Javascript Object Notation) format. JSON is great for machines to understand but looks like gobbleygook to most humans. We will use `jq` to 'pretty print' data we retrieve from the DOI database
+- `curl`: a Unix command for transferring data from or to an Internet server
+  without human interaction. We will use `curl` to retrieve data from APIs.
+- `jq`: a command-line tool that allows us to parse data in JSON (JavaScript
+  Object Notation) format. JSON is great for machines to understand but
+sometimes looks like gobbledygook to humans. We will use `jq` to 'pretty print'
+JSON data.
 
-# Using an APIa via a DOI
+# Using an API via a DOI
 
 First, check that you are on your desktop.  Type
 
@@ -72,19 +76,25 @@ The -H option provides headers and the -L option tells curl to follow
 redirects.  See what you get when you leave off the -L
 
 Most DOIs have a special property that you can access an API by just using the
-normal DOI URL.  In this case we're requesting DataCite standard json file by
+normal DOI URL.  In this case we're requesting DataCite standard JSON file by
 the text in the header.  You can look at all the possible formats at the
-[DataCite
-Documentation](https://support.datacite.org/docs/datacite-content-resolver).
+[DataCite Documentation](https://support.datacite.org/docs/datacite-content-resolver).
 
 You can save this metadata to a file by typing
 
 ```
 $ curl -LH "Accept:application/vnd.datacite.datacite+json"
-https://doi.org/10.14291/tccon.ggg2014.ascension01.R0/1149285 > metadata.json
+https://doi.org/10.14291/tccon.ggg2014.ascension01.R0/1149285 > datacite_metadata.json
 ```
 
 #APIs and formatting
+
+Some APIs do not return JSON that is easy to read.  Let's take a look at DOI
+metadata from CrossRef
+
+```
+$ curl https://api.crossref.org/works/10.1109/mwsym.2015.7166997 -o metadata.json
+```
 
 This formatting is ugly and hard to read.  Let's use jq to make the content
 pretty
@@ -96,7 +106,7 @@ $ jq . metadata.json > metadata_pretty.json
 You can also investigate an API in one step by typing
 
 ```
-$ curl -LH "Accept:application/vnd.datacite.datacite+json" https://doi.org/10.14291/tccon.ggg2014.ascension01.R0/1149285 | jq
+$ curl https://api.crossref.org/works/10.1109/mwsym.2015.7166997 | jq
 ```
 
 Much more detail about DOIs and APIs is available in this [AuthorCarpentry Lesson](https://authorcarpentry.github.io/dois-citation-data)
