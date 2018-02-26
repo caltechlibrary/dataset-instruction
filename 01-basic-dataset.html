@@ -12,8 +12,8 @@
 <ul>
 <li><a href=".">Lesson</a></li>
 <li><a href="00-intro-json-apis.html">Intro</a></li>
-<li><a href="01-basic-dataset.html">Basic Dataset</a></li>
-<li><a href="02-combining-apis.html">Combining APIs with Dataset</a></li>
+<li><a href="01-basic-dataset.html">Basic Dataset and API Data</a></li>
+<li><a href="02-large-data.html">Working with Large Data Sets</a></li>
 <li><a href="mailto:library@caltech.edu">Contact Us</a></li>
 </ul>
 
@@ -30,11 +30,13 @@
 
 <ul>
 <li>Use basic dataset commands</li>
+<li>Use data from a web API</li>
+<li>Export and Import from a Google sheet</li>
 </ul>
 
 <hr />
 
-<h2>Dataset</h2>
+<h1>Dataset</h1>
 
 <p>Dataset is a set of tools for managing multiple JSON documents in an efficient
 way.  These JSON documents are stored as files, and the operations dataset
@@ -42,7 +44,7 @@ performs are transparent even if you&rsquo;re not using the application.  You ha
 the option to store files on your local machine or with a cloud storage
 provider like Amazon Web Services or Google.</p>
 
-<h1>Basic Operations</h1>
+<h2>Basic Operations</h2>
 
 <p>The first step in using dataset is to define a collection.  This is a way to
 organize a set of related JSON documents, and you can have multiple
@@ -66,7 +68,7 @@ documents will be stored.</p>
 <p>Let&rsquo;s create some documents!  Type:</p>
 
 <pre><code>dataset create 1 '{&quot;arxiv&quot;:1711.03979,&quot;doi&quot;:&quot;10.3847/1538-4357/aa9992&quot;}'
-dataset create 2 '{&quot;arxiv&quot;:1507.08280,&quot;doi&quot;:&quot;10.1093/mnras/stv1793&quot;}'
+dataset create 2 '{&quot;arxiv&quot;:1308.3709,&quot;doi&quot;:&quot;10.1093/mnras/stt1560&quot;}'
 dataset create 3 '{&quot;arxiv&quot;:1305.6004,&quot;doi&quot;:&quot;10.1051/0004-6361/201321484&quot;}'
 </code></pre>
 
@@ -102,10 +104,10 @@ id of 1305.6005:</p>
 
 <p>&lsquo;eq&rsquo; indicates we want our field to be equal to the given value. Other options
 are listed
-<a href="https://caltechlibrary.github.io/dataset/docs/dataset/keys.html">here</a>
+<a href="https://caltechlibrary.github.io/dataset/docs/dataset/keys.html">here</a>.
 The &lsquo;.&rsquo; notation indicates what field from the JSON file we want to look at.</p>
 
-<h1>Combining with APIs</h1>
+<h2>Combining with APIs</h2>
 
 <p>Let&rsquo;s say we want to get citation counts for all the articles in our dataset.
 We&rsquo;re going to use the Dimensions API.  Let&rsquo;s first do an example of a manual
@@ -122,13 +124,19 @@ dataset.</p>
 
 <pre><code>curl https://metrics-api.dimensions.ai/doi/10.1051/0004-6361/201321484 &gt; dimensions.json
 jsonmunge -i dimensions.json -E '{{- with .times_cited }}{&quot;times_cited&quot;:{{- . -}}}{{- end -}}' &gt; times_cited.json
+cat times_cited.json
 dataset -i times_cited.json join update 3 
 
 dataset -pretty read 3
 </code></pre>
 
-<p>To use the join command we meed to know the record we&rsquo;re updating (&lsquo;3&rsquo; in this
-case).  We also have two options - &lsquo;update&rsquo; that adds new fields but doesn&rsquo;t change existing
+<p>Jsonmunge is part of our
+<a href="https://github.com/caltechlibrary/datatools">datatools</a> package which uses a
+template to generate a JSON formatted document.  You could use other tools for
+this step.</p>
+
+<p>To use the join command in dataset we need to know the record we&rsquo;re updating (&lsquo;3&rsquo; in this
+case).  We also have two options: &lsquo;update&rsquo; that adds new fields but doesn&rsquo;t change existing
 data and &lsquo;overwrite&rsquo; which will update all fields in common.</p>
 
 <p>This is annoying to do by hand.  We want to run this automatically for all publications
@@ -147,7 +155,7 @@ operation.</p>
 done
 </code></pre>
 
-<p>#Google Docs</p>
+<h2>Google Docs</h2>
 
 <p>Everyone doesn&rsquo;t want to view their data on the command line.  With Dataset you
 can export and import data from a google sheet.  First, create a blank google
@@ -158,7 +166,7 @@ also need to register for Google Sheets API following the
 The command to export this collection is:</p>
 
 <pre><code>export GOOGLE_CLIENT_SECRET_JSON=/etc/client_secret.json
-dataset export-gsheet &quot;1SxEYlY9Hot8Q_NZccMVR4Yn6zI7I4syGEECNplSpR8U&quot; Sheet1 &quot;A1:Z&quot; true '._Key,.doi,.arxiv,.times_cited'
+dataset export-gsheet &quot;1SxEYlY9Hot8Q_NZccMVR4Yn6zI7I4syGEECNplSpR8U&quot; Sheet1 &quot;A1:Z&quot; true '._Key,.doi,.arxiv,.times_cited' '_Key,doi,arxiv,times_cited'
 </code></pre>
 
 <p>You can now check google sheets and see your data!  This command has lots of
@@ -170,10 +178,13 @@ We&rsquo;ll use this in a second when we import from the Google sheet</p>
 <p>Now edit something in the google sheet.  We want to have those changes be
 reflected in our dataset. Type:</p>
 
-<pre><code>dataset import-gsheet &quot;1SxEYlY9Hot8Q_NZccMVR4Yn6zI7I4syGEECNplSpR8U&quot; Sheet1 &quot;A1:Z&quot; 1
+<pre><code>dataset -overwrite import-gsheet &quot;1SxEYlY9Hot8Q_NZccMVR4Yn6zI7I4syGEECNplSpR8U&quot; Sheet1 &quot;A1:Z&quot; 1
 </code></pre>
 
-<p>This command is very simmilar but with</p>
+<p>This command is very similar but with an -overwrite option (to warn us that we
+might overwrite data in our dataset) and a number at the end.  This number is the
+column that has the record keys (if you leave this off it uses the row number
+from Google Sheets).</p>
 
 <p>Previous: <a href="00-intro-json-apis.html">JSON and APIs</a><br />
 Next: <a href="02-combining-apis.html">Combining APIs with Dataset</a></p>
