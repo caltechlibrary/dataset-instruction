@@ -12,8 +12,8 @@
 <ul>
 <li><a href=".">Lesson</a></li>
 <li><a href="00-intro-json-apis.html">Intro</a></li>
-<li><a href="01-basic-dataset.html">Basic Dataset</a></li>
-<li><a href="02-combining-apis.html">Combining APIs with Dataset</a></li>
+<li><a href="01-basic-dataset.html">Basic Dataset and API Data</a></li>
+<li><a href="02-large-data.html">Working with Large Data Sets</a></li>
 <li><a href="mailto:library@caltech.edu">Contact Us</a></li>
 </ul>
 
@@ -86,11 +86,26 @@ with fewer fields are quicker to build.</p>
 
 <p>To tell <em>dsindexer</em> how to index we need a map. A map describes the relationship between data fields (e.g. a title,
 an abstract) and how the indexer should treat those fields.  The simple index format supported by <em>dsindexer</em>
-is a JSON file. Create a JSON document called <code>abstract.json</code>.</p>
+is a JSON file. Create a JSON document called <code>title-abstract-author.json</code>.</p>
 
 <pre><code>    {
+        &quot;title&quot;: {
+            &quot;object_path&quot;: &quot;.title&quot;
+        },
         &quot;abstract&quot;: {
             &quot;object_path&quot;: &quot;.abstract&quot;
+        }
+        &quot;given_name:&quot; {
+            &quot;object_path&quot;: &quot;.creators.item[:].given_name&quot;
+        },
+        &quot;family_name&quot;: {
+            &quot;object_path&quot;: &quot;.creators.item[:].family_name&quot;
+        },
+        &quot;author_id&quot;: {
+            &quot;object_path&quot;: &quot;.creators.item[:].id&quot;
+        },
+        &quot;orcid&quot;: {
+            &quot;object_path&quot;: &quot;.creators.item[:].orcid&quot;
         }
     }
 </code></pre>
@@ -99,20 +114,18 @@ is a JSON file. Create a JSON document called <code>abstract.json</code>.</p>
 
 <p>To create we use <em>dsindexer</em> givening it the index name and the map document name.</p>
 
-<pre><code>    dsindexer abstract.json abstract.bleve
+<pre><code>    dsindexer title-abstract-authors.json title-abstract-authors.bleve
 </code></pre>
 
-<p>This command will take a while to run. How long is determine by the machine your using
-(e.g. desktop or laptop computer) and the size and complexity of the data your indexing.
-Indexes can also become quiet large. When tested on Robert&rsquo;s Mac indexing these two fields
-took about an hour and used about XXXX discspace. Fortunetly you only need to recreate
-your indexes when your collection changes and of course searching the indexes if very fast.</p>
+<p>This command will take a while to run (hours on my desktop system, indexing only the titile
+took <sup>1</sup>&frasl;<sub>2</sub> on my work desktop). Additionally Indexes can also become quiet large (just the title
+field took up nearly 200 meg of dispace).</p>
 
-<p>The indexer doesn&rsquo;t have to index the whole collection. You can provided the indexer with a
-list of keys in a file and the indexer will only index those records. This is useful with large
-collections when you&rsquo;re either exploring your data or developing an index map.</p>
+<p>Normally you don&rsquo;t start by indexing the whole collection. You index just a sample to make
+sure everything is working. Once the index structure is as you like it then you start the
+index for the entire collection.</p>
 
-<pre><code>    dsindexer -id-file=sample.keys abstract.json abstract.bleve
+<pre><code>    dsindexer -key-file=sample.keys abstract.json abstract.bleve
 </code></pre>
 
 <p>Updating or deleting records from an an index can be slower then creating a new one under many
