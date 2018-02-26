@@ -31,19 +31,23 @@ experience gained through the
 You'll need to have a bash shell installed, you can follow
 [these instructions](https://swcarpentry.github.io/workshop-template/#setup).
 
-Your computer will also need to have running the open source json parsing tool, jQuery, available at:
- [jq json parser](https://stedolan.github.io/jq/) to be able to 'pretty print' json data retrieved from API services
-and dataset, a data management tool developed by Caltech Library, available 
-[here](https://github.com/caltechlibrary/dataset/).
-
-## Cheat Sheet
-jQuery (jq) Quick API Reference, https://oscarotero.com/jquery/
+Two tool collections developed at Caltech Library will also be used, [datatools](https://caltechlibrary.github.io/datatools/)
+and [dataset](https://caltechlibrary.github.io/dataset/). From _datatools_ we will be using 
+a program called _jsonmunge_ for extracting and re-formatting JSON content. _datatools_, a collection
+of tools for working with CSV, XLSX and JSON content, is available [here](https://github.com/caltechlibrary/datatools/latest/releases).
+_dataset_, a data management tool, is available 
+[here](https://github.com/caltechlibrary/dataset/latest/releases).
 
 ## References
 
-+ curl documentation, https://curl.haxx.se/
-+ CrossRef REST API, https://github.com/CrossRef/rest-api-doc
-+ CrossRef Content Negotiation, https://citation.crosscite.org/docs.html
-+ jq online testing tool, https://jqplay.org/
-+ json documentation, https://www.json.org
-+ Parsing JSON with jq, http://www.compciv.org/recipes/cli/jq-for-parsing-json/
++ data formats
+    + json documentation, https://www.json.org
++ data sources
+    + Dimension API presentation (see slide 3), https://figshare.com/s/3c8f0284e8e51718c1b2
+    + CrossRef REST API, https://github.com/CrossRef/rest-api-doc
+    + CrossRef Content Negotiation, https://citation.crosscite.org/docs.html
++ programs
+    + curl documentation, https://curl.haxx.se/
+    + dataset, https://caltechlibrary.github.io/dataset/
+    + datatools, https://caltechlibrary.github.io/datatools/
+

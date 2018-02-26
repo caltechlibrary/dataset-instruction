@@ -14,7 +14,7 @@ Learning Objectives:
 
 Dataset is a set of tools for managing multiple JSON documents in an efficient
 way.  These JSON documents are stored as files, and the operations dataset
-performs are transpartent even if you're not using the application.  You have
+performs are transparent even if you're not using the application.  You have
 the option to store files on your local machine or with a cloud storage
 provider like Amazon Web Services or Google.
 
@@ -87,7 +87,7 @@ dataset keys '(eq .arxiv "1305.6005")'
 'eq' indicates we want our field to be equal to the given value. Other options
 are listed
 [here](https://caltechlibrary.github.io/dataset/docs/dataset/keys.html)
-The '.' notation indicates what field from the json file we want to look at.
+The '.' notation indicates what field from the JSON file we want to look at.
 
 # Combining with APIs
 
@@ -101,7 +101,7 @@ curl https://metrics-api.dimensions.ai/doi/10.1051/0004-6361/201321484
  
 We get back a JSON file with some useful data.  Let's say we want to add just
 the 'times_cited' value it to our dataset.
-First we'll save the API results to a file, use the jsonmunge tool to extract
+First we'll save the API results to a file, use the _jsonmunge_ tool to extract
 the field and create a second JSON file, and then use the join command to add the information to
 dataset.
 
