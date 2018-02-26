@@ -152,11 +152,28 @@ done
 <p>Everyone doesn&rsquo;t want to view their data on the command line.  With Dataset you
 can export and import data from a google sheet.  First, create a blank google
 sheet.  You&rsquo;ll need to copy the sheet ID, which is the long string in the
-middle of the URL (like 1SxEYlY9Hot8Q_NZccMVR4Yn6zI7I4syGEECNplSpR8U).  The
-command to export this collection is:</p>
+middle of the URL (like 1SxEYlY9Hot8Q_NZccMVR4Yn6zI7I4syGEECNplSpR8U).  You&rsquo;ll
+also need to register for Google Sheets API following the
+<a href="https://caltechlibrary.github.io/dataset/docs/dataset/import-gsheet.html">instructions</a>
+The command to export this collection is:</p>
 
-<pre><code>
+<pre><code>export GOOGLE_CLIENT_SECRET_JSON=/etc/client_secret.json
+dataset export-gsheet &quot;1SxEYlY9Hot8Q_NZccMVR4Yn6zI7I4syGEECNplSpR8U&quot; Sheet1 &quot;A1:Z&quot; true '._Key,.doi,.arxiv,.times_cited'
 </code></pre>
+
+<p>You can now check google sheets and see your data!  This command has lots of
+flexibility: you can specify the specific sheet, a range within a sheet, a
+filter expression to export a subset of keys, and specific values with custom
+column headings. &lsquo;._Key&rsquo; is a special field that is the key for the record.
+We&rsquo;ll use this in a second when we import from the Google sheet</p>
+
+<p>Now edit something in the google sheet.  We want to have those changes be
+reflected in our dataset. Type:</p>
+
+<pre><code>dataset import-gsheet &quot;1SxEYlY9Hot8Q_NZccMVR4Yn6zI7I4syGEECNplSpR8U&quot; Sheet1 &quot;A1:Z&quot; 1
+</code></pre>
+
+<p>This command is very simmilar but with</p>
 
 <p>Previous: <a href="00-intro-json-apis.html">JSON and APIs</a><br />
 Next: <a href="02-combining-apis.html">Combining APIs with Dataset</a></p>
