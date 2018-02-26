@@ -139,12 +139,30 @@ done
 Everyone doesn't want to view their data on the command line.  With Dataset you
 can export and import data from a google sheet.  First, create a blank google
 sheet.  You'll need to copy the sheet ID, which is the long string in the
-middle of the URL (like 1SxEYlY9Hot8Q_NZccMVR4Yn6zI7I4syGEECNplSpR8U).  The
-command to export this collection is:
+middle of the URL (like 1SxEYlY9Hot8Q_NZccMVR4Yn6zI7I4syGEECNplSpR8U).  You'll
+also need to register for Google Sheets API following the
+[instructions](https://caltechlibrary.github.io/dataset/docs/dataset/import-gsheet.html)
+The command to export this collection is:
 
 ```
+export GOOGLE_CLIENT_SECRET_JSON=/etc/client_secret.json
+dataset export-gsheet "1SxEYlY9Hot8Q_NZccMVR4Yn6zI7I4syGEECNplSpR8U" Sheet1 "A1:Z" true '._Key,.doi,.arxiv,.times_cited'
+```
+
+You can now check google sheets and see your data!  This command has lots of
+flexibility: you can specify the specific sheet, a range within a sheet, a
+filter expression to export a subset of keys, and specific values with custom
+column headings. '.\_Key' is a special field that is the key for the record.
+We'll use this in a second when we import from the Google sheet 
+
+Now edit something in the google sheet.  We want to have those changes be
+reflected in our dataset. Type:
 
 ```
+dataset import-gsheet "1SxEYlY9Hot8Q_NZccMVR4Yn6zI7I4syGEECNplSpR8U" Sheet1 "A1:Z" 1
+```
+
+This command is very simmilar but with 
 
 Previous: [JSON and APIs](00-intro-json-apis.html)  
 Next: [Combining APIs with Dataset](02-combining-apis.html)  
