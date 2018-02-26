@@ -69,7 +69,7 @@ $ curl -LH "Accept:application/vnd.datacite.datacite+json" https://doi.org/10.14
 ```
 
 The -H option provides headers and the -L option tells curl to follow
-redirects.  See what you get when you leave off the -L
+redirects. 
 
 Most DOIs have a special property that you can access an API by just using the
 normal DOI URL.  In this case we're requesting DataCite standard JSON file by
