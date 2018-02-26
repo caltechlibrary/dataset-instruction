@@ -13,14 +13,15 @@ Training on Dataset tools
 * Identify the structure of a JSON file
 * Gather data from an API
 * Use the basic functions of dataset
-* Combine data using dataset to answer a question, such as determining the
-twitter mentions of papers by a Caltech faculty member
+* Combine data using dataset to collect citations for a publications list
+* Export and Import from a Google sheet
+* Index and search over a large collection of data
 
 ## Topics:
 
 1. [Intro](00-intro-json-apis.html)
-2. [Register a DOI](01-basic-dataset.html)
-3. [DOI Metadata](02-combining-apis.html)
+2. [Basic Dataset](01-basic-dataset.html)
+3. [Working with Larger Amounts of Data](02-large-data.html)
 
 ## Requirements
 

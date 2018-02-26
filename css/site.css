@@ -223,7 +223,7 @@ table, th, td {
 tr:nth-child(odd) {background-color: #f2f2f2}
 
 footer {
-     position: relative;
+     position: fixed;
      bottom: 0;
      display: block;
      width: 100%;

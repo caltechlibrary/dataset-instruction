@@ -1,3 +1,4 @@
+
 # Combining APIs with Dataset
 
 20 min
@@ -6,8 +7,7 @@
 
 Learning Objectives:
 
-* Combine data using dataset to answer a question, such as determining the
-twitter mentions of papers by a Caltech faculty member
+* Use Dataset tools to index and search over CaltechAUTHORS
 
 ---
 

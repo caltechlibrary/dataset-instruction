@@ -42,7 +42,7 @@ performs are transpartent even if you&rsquo;re not using the application.  You h
 the option to store files on your local machine or with a cloud storage
 provider like Amazon Web Services or Google.</p>
 
-<p>#Basic Operations</p>
+<h1>Basic Operations</h1>
 
 <p>The first step in using dataset is to define a collection.  This is a way to
 organize a set of related JSON documents, and you can have multiple
@@ -86,7 +86,7 @@ the doi and arxiv identifier of an article.</p>
 
 <p>We can make changes to our documents</p>
 
-<pre><code>dataset update 3 '{&quot;arxiv&quot;:1305.6005,&quot;doi&quot;:&quot;10.1051/0004-6361/201321484&quot;}'
+<pre><code>dataset update 3 '{&quot;arxiv&quot;:&quot;1305.6005&quot;,&quot;doi&quot;:&quot;10.1051/0004-6361/201321484&quot;}'
 </code></pre>
 
 <p>And remove documents</p>
@@ -97,7 +97,7 @@ the doi and arxiv identifier of an article.</p>
 <p>We can also pull out subsets of documents.  Let&rsquo;s find documents with and arxiv
 id of 1305.6005:</p>
 
-<pre><code>dataset keys '(eq .arxiv '1305.6005')'
+<pre><code>dataset keys '(eq .arxiv &quot;1305.6005&quot;)'
 </code></pre>
 
 <p>&lsquo;eq&rsquo; indicates we want our field to be equal to the given value. Other options
@@ -105,7 +105,7 @@ are listed
 <a href="https://caltechlibrary.github.io/dataset/docs/dataset/keys.html">here</a>
 The &lsquo;.&rsquo; notation indicates what field from the json file we want to look at.</p>
 
-<p>#Combining with APIs</p>
+<h1>Combining with APIs</h1>
 
 <p>Let&rsquo;s say we want to get citation counts for all the articles in our dataset.
 We&rsquo;re going to use the Dimensions API.  Let&rsquo;s first do an example of a manual
@@ -115,15 +115,16 @@ API call</p>
 </code></pre>
 
 <p>We get back a JSON file with some useful data.  Let&rsquo;s say we want to add just
-the &lsquo;times_cited&rsquo; value it to our dataset.<br />
-First we&rsquo;ll save the API results to a file, ust the jsoncols tool to extract
-the field, and then use the join command to add the information to
+the &lsquo;times_cited&rsquo; value it to our dataset.
+First we&rsquo;ll save the API results to a file, use the jsonmunge tool to extract
+the field and create a second JSON file, and then use the join command to add the information to
 dataset.</p>
 
 <pre><code>curl https://metrics-api.dimensions.ai/doi/10.1051/0004-6361/201321484 &gt; dimensions.json
-jsoncols -i dimensions.json .times_cited
-dataset -i dimensions.json join update 3 
-dataset read 3
+jsonmunge -i dimensions.json -E '{{- with .times_cited }}{&quot;times_cited&quot;:{{- . -}}}{{- end -}}' &gt; times_cited.json
+dataset -i times_cited.json join update 3 
+
+dataset -pretty read 3
 </code></pre>
 
 <p>To use the join command we meed to know the record we&rsquo;re updating (&lsquo;3&rsquo; in this
@@ -134,18 +135,24 @@ data and &lsquo;overwrite&rsquo; which will update all fields in common.</p>
 in our dataset collection.  We need to write a short script to carry out this
 operation.</p>
 
-<p>```
-for KY in $(dataset keys); do</p>
+<pre><code>dataset keys | while read KY; do
+    dataset read &quot;$KY&quot; &gt; record.json
+    URL=$(jsonmunge -i record.json -E '{{- with .doi -}}https://metrics-api.dimensions.ai/doi/{{- . -}}{{- end -}}')
 
-<pre><code>curl
+    curl &quot;$URL&quot; &gt; dimensions.json
+    jsonmunge -i dimensions.json -E '{{- with .times_cited }}{&quot;times_cited&quot;:{{- . -}}}{{- end -}}' &gt; times_cited.json
+    dataset -i times_cited.json join update &quot;$KY&quot;
+
+    dataset -pretty read &quot;$KY&quot;
+done
 </code></pre>
 
-<p>#Google Docs</p>
+<h1>Google Docs</h1>
 
 <hr />
 
 <p>Previous: <a href="00-intro-json-apis.html">JSON and APIs</a><br />
-Next: <a href="02-combining-apis.md">Combining APIs with Dataset</a></p>
+Next: <a href="02-combining-apis.html">Combining APIs with Dataset</a></p>
 
 </section>
 
