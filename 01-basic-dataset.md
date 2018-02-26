@@ -108,7 +108,7 @@ dataset.
 ```
 curl https://metrics-api.dimensions.ai/doi/10.1051/0004-6361/201321484 > dimensions.json
 jsonmunge -i dimensions.json -E '{{- with .times_cited }}{"times_cited":{{- . -}}}{{- end -}}' > times_cited.json
-dataset -i timescited.json join update 3
+dataset -i times_cited.json join update 3 
 
 dataset -pretty read 3
 ```
@@ -122,14 +122,19 @@ in our dataset collection.  We need to write a short script to carry out this
 operation.
 
 ```
-for KY in $(dataset keys); do
-    
-    curl
+dataset keys | while read KY; do
+    dataset read "$KY" > record.json
+    URL=$(jsonmunge -i record.json -E '{{- with .doi -}}https://metrics-api.dimensions.ai/doi/{{- . -}}{{- end -}}')
 
-#Google Docs
+    curl "$URL" > dimensions.json
+    jsonmunge -i dimensions.json -E '{{- with .times_cited }}{"times_cited":{{- . -}}}{{- end -}}' > times_cited.json
+    dataset -i times_cited.json join update "$KY"
 
+    dataset -pretty read "$KY"
+done
+```
 
-
+# Google Docs
 
 ---
 
