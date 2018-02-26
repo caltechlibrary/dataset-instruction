@@ -30,24 +30,105 @@
 
 <ul>
 <li>Use Dataset tools to index and search over CaltechAUTHORS</li>
-<li>Use the search results to enhance the data by combining information from CrossRef</li>
 </ul>
 
 <hr />
 
-<h2>Data sources</h2>
+<h2>Dataset</h2>
 
-<h3>CaltechAUTHOR collection</h3>
+<p>This section of the lesson will expand on our previos example using two additional tools that
+come with <em>dataset</em>. The two are <em>dsindexer</em> and <em>dsfind</em>. The former creates a full text
+index and the latter lets you search that index and retrieve the results in various forms
+(e.g. plain text, JSON, CSV).</p>
+
+<h2>Data Sources</h2>
+
+<h3>CaltechAUTHORS</h3>
 
 <p><a href="https://authors.library.caltech.edu">CaltechAUTHORS</a> is a repository of over 70,000 research papers authored by Caltech
 faculty and other researchers at Caltech.  The repository is large so Caltech Library makes snapshots of the
-metadata of public records and we will be using that as one data source.</p>
-
-<h3>CrossRef</h3>
-
-<p>CrossRef provides an web API that can be quiered by DOI.</p>
+metadata of public records and stores them in as a _dataset<em>collection</em>. This will serve our purposes for a demonstrating
+working with a large collection of data.</p>
 
 <hr />
+
+<p>FIXME: this heading organization isn&rsquo;t correct&hellip;</p>
+
+<h2>Basic Operations</h2>
+
+<h3>Overview</h3>
+
+<p>First we need to decide how we want to index. Next create our index definition (our Index map) and then
+use <em>dsindexer</em> to index the CaltechAUTHORS collection. Finally we will query our index with <em>dsfind</em> to beable to identify
+records of interest. <em>dsfind</em> can return results in several formats including plain text, JSON and CSV.</p>
+
+<pre><code>    export DATASET=&quot;CaltechAUTHORS.ds&quot;
+</code></pre>
+
+<h3>Deciding what to index</h3>
+
+<p>We have already seen how we have used <em>dataset</em> to list the keys in a collection. We can get a sampling of
+keys and review those to see how we might want to index our collection. To do this I will be a random
+sample of five records from our collection.</p>
+
+<pre><code>    dataset -sample 5 keys &gt; sample.keys
+    while read KY; do
+        dataset -pretty read &quot;$KY&quot; | more
+    done &lt;sample.keys
+
+</code></pre>
+
+<p>The <code>.abstract</code> field looks interesting we can try indexing that. Indexes can be combined so if later we want
+to also include <code>.title</code> or <code>.publication</code> we can just create indexes for this. Generally speaking indexes
+with fewer fields are quicker to build.</p>
+
+<h3>Creating an index map</h3>
+
+<p>To tell <em>dsindexer</em> how to index we need a map. A map describes the relationship between data fields (e.g. a title,
+an abstract) and how the indexer should treat those fields.  The simple index format supported by <em>dsindexer</em>
+is a JSON file. Create a JSON document called <code>abstract.json</code>.</p>
+
+<pre><code>    {
+        &quot;abstract&quot;: {
+            &quot;object_path&quot;: &quot;.abstract&quot;
+        }
+    }
+</code></pre>
+
+<h3>Creating the index</h3>
+
+<p>To create we use <em>dsindexer</em> givening it the index name and the map document name.</p>
+
+<pre><code>    dsindexer abstract.json abstract.bleve
+</code></pre>
+
+<p>This command will take a while to run. How long is determine by the machine your using
+(e.g. desktop or laptop computer) and the size and complexity of the data your indexing.
+Indexes can also become quiet large. When tested on Robert&rsquo;s Mac indexing these two fields
+took about an hour and used about XXXX discspace. Fortunetly you only need to recreate
+your indexes when your collection changes and of course searching the indexes if very fast.</p>
+
+<p>The indexer doesn&rsquo;t have to index the whole collection. You can provided the indexer with a
+list of keys in a file and the indexer will only index those records. This is useful with large
+collections when you&rsquo;re either exploring your data or developing an index map.</p>
+
+<pre><code>    dsindexer -id-file=sample.keys abstract.json abstract.bleve
+</code></pre>
+
+<p>Updating or deleting records from an an index can be slower then creating a new one under many
+circumstances. Generally if it is a large number of records changing I recommend
+creating a new index, if it index is large and you are changing a small number records try
+updating instead.</p>
+
+<h3>Searching our index</h3>
+
+<p>The index we create allows us to perform a full text search across the index. Unlike
+a relational database query we can find approximate matches as well as narrow results
+to specific fields and phrases. Dataset index use the <a href="https://blevesearch.com">Bleve</a>
+search platform which uses a query syntax similar to Elastic Search.</p>
+
+<pre><code>    dsfind abstract.bleve &quot;Calcium Carbinate&quot;
+</code></pre>
 
 <p>Previous: <a href="01-basic-dataset.html">Basic Dataset</a></p>
 

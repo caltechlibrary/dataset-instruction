@@ -42,6 +42,7 @@ _dataset_, a data management tool, is available
 
 + data formats
     + json documentation, https://www.json.org
+    + simple index maps, https://caltechlibrary.github.io/dataset/docs/dsindexer/defining-index.html
 + data sources
     + Dimension API presentation (see slide 3), https://figshare.com/s/3c8f0284e8e51718c1b2
     + CrossRef REST API, https://github.com/CrossRef/rest-api-doc
