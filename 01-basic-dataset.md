@@ -124,12 +124,19 @@ operation.
 for KY in $(dataset keys); do
     
     curl
+```
 
 #Google Docs
 
+Everyone doesn't want to view their data on the command line.  With Dataset you
+can export and import data from a google sheet.  First, create a blank google
+sheet.  You'll need to copy the sheet ID, which is the long string in the
+middle of the URL (like 1SxEYlY9Hot8Q_NZccMVR4Yn6zI7I4syGEECNplSpR8U).  The
+command to export this collection is:
 
+```
 
-
+```
 ---
 
 Previous: [JSON and APIs](00-intro-json-apis.html)  
