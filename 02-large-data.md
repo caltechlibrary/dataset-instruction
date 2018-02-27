@@ -50,10 +50,10 @@ keys and review those to see how we might want to index our collection. To do th
 sample of five records from our collection.
 
 ```
-    dataset -sample 5 keys > sample.keys
+    dataset -sample 5 keys > sample1.keys
     while read KY; do
         dataset -pretty read "$KY" | more
-    done <sample.keys
+    done <sample1.keys
 
 ```
 
@@ -74,7 +74,7 @@ is a JSON file. Create a JSON document called `title-abstract-author.json`.
         },
         "abstract": {
             "object_path": ".abstract"
-        }
+        },
         "given_name:" {
             "object_path": ".creators.item[:].given_name"
         },
@@ -104,10 +104,12 @@ field took up nearly 200 meg of dispace).
 
 Normally you don't start by indexing the whole collection. You index just a sample to make
 sure everything is working. Once the index structure is as you like it then you start the
-index for the entire collection.
+index for the entire collection. In the next example we first create a new key list sample
+then index the collection using the key list.
 
 ```
-    dsindexer -key-file=sample.keys abstract.json abstract.bleve
+    dataset -sample 2500 keys > sample2.keys
+    dsindexer -key-file=sample1.keys title-abstract-authors.json title-abstract-authors.bleve
 ```
 
 Updating or deleting records from an an index can be slower then creating a new one under many
@@ -124,7 +126,7 @@ to specific fields and phrases. Dataset index use the [Bleve](https://blevesearc
 search platform which uses a query syntax similar to Elastic Search.
 
 ```
-    dsfind abstract.bleve "Calcium Carbinate"
+    dsfind abstract.bleve "calcium carbinate"
 ```
 
 
