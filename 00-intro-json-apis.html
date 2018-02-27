@@ -62,12 +62,8 @@ braces and separated by a colon:</p>
 
 <p>By combining these elements you can generate complex data structures that both
 humans and machines can easily read.  Now we&rsquo;re going to take a look at the
-results from a web API.  We&rsquo;re going to use two command line tools:</p>
-
-<ul>
-<li><code>curl</code>: a Unix command for transferring data from or to an Internet server
-without human interaction. We will use <code>curl</code> to retrieve data from APIs.</li>
-</ul>
+results from a web API.  We&rsquo;re going to use <code>curl</code>, a Unix command for transferring data from or to an Internet server
+without human interaction.</p>
 
 <h1>Using an API via a DOI</h1>
 
@@ -85,11 +81,17 @@ desktop by typing</p>
 <p>Now we&rsquo;ll use curl to grab web content.  Note that you can copy and paste these
 commands into your terminal window to save typing.</p>
 
-<pre><code>$ curl -LH &quot;Accept:application/vnd.datacite.datacite+json&quot; https://doi.org/10.14291/tccon.ggg2014.ascension01.R0/1149285
+<pre><code>curl https://doi.org/10.14291/tccon.ggg2014.ascension01.R0/1149285
 </code></pre>
 
-<p>The -H option provides headers and the -L option tells curl to follow
-redirects.</p>
+<p>We see a short HTML file with the link the DOI redirects to.  If we want the
+actual content we have to add a <code>-L</code> option to enable curl to follow redirects.
+Because curl is not a web harvesting tool web sites collected this way may look
+weird.  We&rsquo;re going to use curl to gather JSON files- we have to specify this
+is what we want by adding a header with the <code>-H</code> option.</p>
+
+<pre><code>$ curl -LH &quot;Accept:application/vnd.datacite.datacite+json&quot; https://doi.org/10.14291/tccon.ggg2014.ascension01.R0/1149285
+</code></pre>
 
 <p>Most DOIs have a special property that you can access an API by just using the
 normal DOI URL.  In this case we&rsquo;re requesting DataCite standard JSON file by

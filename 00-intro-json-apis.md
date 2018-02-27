@@ -41,10 +41,8 @@ You can also have arrays of values, designated by brackets:
 
 By combining these elements you can generate complex data structures that both
 humans and machines can easily read.  Now we're going to take a look at the
-results from a web API.  We're going to use two command line tools:
-
-- `curl`: a Unix command for transferring data from or to an Internet server
-  without human interaction. We will use `curl` to retrieve data from APIs.
+results from a web API.  We're going to use `curl`, a Unix command for transferring data from or to an Internet server
+without human interaction.
 
 # Using an API via a DOI
 
@@ -65,11 +63,17 @@ Now we'll use curl to grab web content.  Note that you can copy and paste these
 commands into your terminal window to save typing.
 
 ```
+curl https://doi.org/10.14291/tccon.ggg2014.ascension01.R0/1149285
+```
+We see a short HTML file with the link the DOI redirects to.  If we want the
+actual content we have to add a `-L` option to enable curl to follow redirects.
+Because curl is not a web harvesting tool web sites collected this way may look
+weird.  We're going to use curl to gather JSON files- we have to specify this
+is what we want by adding a header with the `-H` option.  
+
+```
 $ curl -LH "Accept:application/vnd.datacite.datacite+json" https://doi.org/10.14291/tccon.ggg2014.ascension01.R0/1149285
 ```
-
-The -H option provides headers and the -L option tells curl to follow
-redirects. 
 
 Most DOIs have a special property that you can access an API by just using the
 normal DOI URL.  In this case we're requesting DataCite standard JSON file by
