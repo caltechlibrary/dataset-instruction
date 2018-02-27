@@ -98,8 +98,9 @@ indexes take up almost 400 MB of diskspace).
 
 Normally you don't start by indexing the whole collection. You index just a sample to make
 sure everything is working. Once the index structure is as you like it then you start the
-index for the entire collection. In the next example we first create a new key list sample
-then index the collection using the key list.
+index for the entire collection. Let's index across the abstracts of a sample
+of CaltechAUTHORS.  We first create a new key list sample
+then index the collection using the key list.  Save this as abstract.json
 
 ```
     {
@@ -108,9 +109,11 @@ then index the collection using the key list.
         },
 ```
 
+Then run these commands:
+
 ```
     dataset -sample 2500 keys > sample2.keys
-    dsindexer -key-file=sample1.keys abstract.json abstract.bleve
+    dsindexer -key-file=sample2.keys abstract.json abstract.bleve
 ```
 
 You can also update or delete records from an index.  However this can be slower then creating a new one under many
@@ -126,7 +129,7 @@ to specific fields and phrases. Dataset index use the [Bleve](https://blevesearc
 search platform which uses a query syntax similar to Elastic Search.
 
 ```
-    dsfind abstract.bleve "calcium carbonate"
+    dsfind title-authors.bleve "calcium carbonate"
     dsfind title-authors.bleve author_id:Readhead-A-C-S
 ```
 

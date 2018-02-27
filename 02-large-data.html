@@ -116,8 +116,9 @@ indexes take up almost 400 MB of diskspace).</p>
 
 <p>Normally you don&rsquo;t start by indexing the whole collection. You index just a sample to make
 sure everything is working. Once the index structure is as you like it then you start the
-index for the entire collection. In the next example we first create a new key list sample
-then index the collection using the key list.</p>
+index for the entire collection. Let&rsquo;s index across the abstracts of a sample
+of CaltechAUTHORS.  We first create a new key list sample
+then index the collection using the key list.  Save this as abstract.json</p>
 
 <pre><code>    {
         &quot;abstract&quot;: {
@@ -125,8 +126,10 @@ then index the collection using the key list.</p>
         },
 </code></pre>
 
+<p>Then run these commands:</p>
+
 <pre><code>    dataset -sample 2500 keys &gt; sample2.keys
-    dsindexer -key-file=sample1.keys abstract.json abstract.bleve
+    dsindexer -key-file=sample2.keys abstract.json abstract.bleve
 </code></pre>
 
 <p>You can also update or delete records from an index.  However this can be slower then creating a new one under many
@@ -140,7 +143,7 @@ a relational database query we can find approximate matches as well as narrow re
 to specific fields and phrases. Dataset index use the <a href="https://blevesearch.com">Bleve</a>
 search platform which uses a query syntax similar to Elastic Search.</p>
 
-<pre><code>    dsfind abstract.bleve &quot;calcium carbonate&quot;
+<pre><code>    dsfind title-authors.bleve &quot;calcium carbonate&quot;
     dsfind title-authors.bleve author_id:Readhead-A-C-S
 </code></pre>
 
