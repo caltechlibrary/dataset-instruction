@@ -109,23 +109,29 @@ is a JSON file. Create a JSON document called <code>title-author.json</code>.</p
 <pre><code>    dsindexer title-authors.json title-authors.bleve
 </code></pre>
 
-<p>This command will take a while to run (hours on my desktop system, indexing only the title
-took <sup>1</sup>&frasl;<sub>2</sub> on my work desktop). Additionally Indexes can also become quiet large (just the title
-field took up nearly 200 meg of displace).</p>
+<p>Depending on the data, this command might take awhile to run.  Authors and
+titles is quick, but including full abstracts makes it much longer for the
+indexes to run. Additionally indexes can become quiet large (the example
+indexes take up almost 400 MB of diskspace).</p>
 
 <p>Normally you don&rsquo;t start by indexing the whole collection. You index just a sample to make
 sure everything is working. Once the index structure is as you like it then you start the
 index for the entire collection. In the next example we first create a new key list sample
 then index the collection using the key list.</p>
 
-<pre><code>    dataset -sample 2500 keys &gt; sample2.keys
-    dsindexer -key-file=sample1.keys title-abstract-authors.json title-abstract-authors.bleve
+<pre><code>    {
+        &quot;abstract&quot;: {
+            &quot;object_path&quot;: &quot;.abstract&quot;
+        },
 </code></pre>
 
-<p>Updating or deleting records from an an index can be slower then creating a new one under many
-circumstances. Generally if it is a large number of records changing I recommend
-creating a new index, if it index is large and you are changing a small number records try
-updating instead.</p>
+<pre><code>    dataset -sample 2500 keys &gt; sample2.keys
+    dsindexer -key-file=sample1.keys abstract.json abstract.bleve
+</code></pre>
+
+<p>You can also update or delete records from an index.  However this can be slower then creating a new one under many
+circumstances. You&rsquo;ll want to consider your options carefully if you&rsquo;re working
+with extremely large datasets.</p>
 
 <h3>Searching our index</h3>
 
@@ -135,6 +141,7 @@ to specific fields and phrases. Dataset index use the <a href="https://blevesear
 search platform which uses a query syntax similar to Elastic Search.</p>
 
 <pre><code>    dsfind abstract.bleve &quot;calcium carbonate&quot;
+    dsfind title-authors.bleve author_id:Readhead-A-C-S
 </code></pre>
 
 <p>Previous: <a href="01-basic-dataset.html">Basic Dataset</a></p>

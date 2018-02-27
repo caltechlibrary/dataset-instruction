@@ -91,9 +91,10 @@ To create we use _dsindexer_ giving it the index name and the map document name.
     dsindexer title-authors.json title-authors.bleve
 ```
 
-This command will take a while to run (hours on my desktop system, indexing only the title
-took 1/2 on my work desktop). Additionally Indexes can also become quiet large (just the title
-field took up nearly 200 meg of displace). 
+Depending on the data, this command might take awhile to run.  Authors and
+titles is quick, but including full abstracts makes it much longer for the
+indexes to run. Additionally indexes can become quiet large (the example
+indexes take up almost 400 MB of diskspace). 
 
 Normally you don't start by indexing the whole collection. You index just a sample to make
 sure everything is working. Once the index structure is as you like it then you start the
@@ -101,14 +102,20 @@ index for the entire collection. In the next example we first create a new key l
 then index the collection using the key list.
 
 ```
-    dataset -sample 2500 keys > sample2.keys
-    dsindexer -key-file=sample1.keys title-abstract-authors.json title-abstract-authors.bleve
+    {
+        "abstract": {
+            "object_path": ".abstract"
+        },
 ```
 
-Updating or deleting records from an an index can be slower then creating a new one under many
-circumstances. Generally if it is a large number of records changing I recommend 
-creating a new index, if it index is large and you are changing a small number records try
-updating instead.
+```
+    dataset -sample 2500 keys > sample2.keys
+    dsindexer -key-file=sample1.keys abstract.json abstract.bleve
+```
+
+You can also update or delete records from an index.  However this can be slower then creating a new one under many
+circumstances. You'll want to consider your options carefully if you're working
+with extremely large datasets.
 
 
 ### Searching our index
@@ -120,6 +127,7 @@ search platform which uses a query syntax similar to Elastic Search.
 
 ```
     dsfind abstract.bleve "calcium carbonate"
+    dsfind title-authors.bleve author_id:Readhead-A-C-S
 ```
 
 
