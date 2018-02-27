@@ -71,7 +71,7 @@ is a JSON file. Create a JSON document called `title-abstract-author.json`.
         "abstract": {
             "object_path": ".abstract"
         },
-        "given_name:" {
+        "given_name": {
             "object_path": ".creators.item[:].given_name"
         },
         "family_name": {
