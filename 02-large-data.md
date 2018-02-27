@@ -13,7 +13,7 @@ Learning Objectives:
 
 ## Dataset
 
-This section of the lesson will expand on our previos example using two additional tools that 
+This section of the lesson will expand on our previous example using two additional tools that 
 come with _dataset_. The two are _dsindexer_ and _dsfind_. The former creates a full text 
 index and the latter lets you search that index and retrieve the results in various forms
 (e.g. plain text, JSON, CSV).
@@ -36,7 +36,7 @@ FIXME: this heading organization isn't correct...
 ### Overview
 
 First we need to decide how we want to index. Next create our index definition (our Index map) and then
-use _dsindexer_ to index the CaltechAUTHORS collection. Finally we will query our index with _dsfind_ to beable to identify 
+use _dsindexer_ to index the CaltechAUTHORS collection. Finally we will query our index with _dsfind_ to be able to identify 
 records of interest. _dsfind_ can return results in several formats including plain text, JSON and CSV.
 
 ```
@@ -92,15 +92,15 @@ is a JSON file. Create a JSON document called `title-abstract-author.json`.
 
 ### Creating the index
 
-To create we use _dsindexer_ givening it the index name and the map document name.
+To create we use _dsindexer_ giving it the index name and the map document name.
 
 ```
     dsindexer title-abstract-authors.json title-abstract-authors.bleve
 ```
 
-This command will take a while to run (hours on my desktop system, indexing only the titile
+This command will take a while to run (hours on my desktop system, indexing only the title
 took 1/2 on my work desktop). Additionally Indexes can also become quiet large (just the title
-field took up nearly 200 meg of dispace). 
+field took up nearly 200 meg of displace). 
 
 Normally you don't start by indexing the whole collection. You index just a sample to make
 sure everything is working. Once the index structure is as you like it then you start the
@@ -126,7 +126,7 @@ to specific fields and phrases. Dataset index use the [Bleve](https://blevesearc
 search platform which uses a query syntax similar to Elastic Search.
 
 ```
-    dsfind abstract.bleve "calcium carbinate"
+    dsfind abstract.bleve "calcium carbonate"
 ```
 
 

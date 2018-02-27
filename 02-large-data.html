@@ -36,7 +36,7 @@
 
 <h2>Dataset</h2>
 
-<p>This section of the lesson will expand on our previos example using two additional tools that
+<p>This section of the lesson will expand on our previous example using two additional tools that
 come with <em>dataset</em>. The two are <em>dsindexer</em> and <em>dsfind</em>. The former creates a full text
 index and the latter lets you search that index and retrieve the results in various forms
 (e.g. plain text, JSON, CSV).</p>
@@ -59,7 +59,7 @@ working with a large collection of data.</p>
 <h3>Overview</h3>
 
 <p>First we need to decide how we want to index. Next create our index definition (our Index map) and then
-use <em>dsindexer</em> to index the CaltechAUTHORS collection. Finally we will query our index with <em>dsfind</em> to beable to identify
+use <em>dsindexer</em> to index the CaltechAUTHORS collection. Finally we will query our index with <em>dsfind</em> to be able to identify
 records of interest. <em>dsfind</em> can return results in several formats including plain text, JSON and CSV.</p>
 
 <pre><code>    export DATASET=&quot;CaltechAUTHORS.ds&quot;
@@ -112,14 +112,14 @@ is a JSON file. Create a JSON document called <code>title-abstract-author.json</
 
 <h3>Creating the index</h3>
 
-<p>To create we use <em>dsindexer</em> givening it the index name and the map document name.</p>
+<p>To create we use <em>dsindexer</em> giving it the index name and the map document name.</p>
 
 <pre><code>    dsindexer title-abstract-authors.json title-abstract-authors.bleve
 </code></pre>
 
-<p>This command will take a while to run (hours on my desktop system, indexing only the titile
+<p>This command will take a while to run (hours on my desktop system, indexing only the title
 took <sup>1</sup>&frasl;<sub>2</sub> on my work desktop). Additionally Indexes can also become quiet large (just the title
-field took up nearly 200 meg of dispace).</p>
+field took up nearly 200 meg of displace).</p>
 
 <p>Normally you don&rsquo;t start by indexing the whole collection. You index just a sample to make
 sure everything is working. Once the index structure is as you like it then you start the
@@ -142,7 +142,7 @@ a relational database query we can find approximate matches as well as narrow re
 to specific fields and phrases. Dataset index use the <a href="https://blevesearch.com">Bleve</a>
 search platform which uses a query syntax similar to Elastic Search.</p>
 
-<pre><code>    dsfind abstract.bleve &quot;calcium carbinate&quot;
+<pre><code>    dsfind abstract.bleve &quot;calcium carbonate&quot;
 </code></pre>
 
 <p>Previous: <a href="01-basic-dataset.html">Basic Dataset</a></p>
