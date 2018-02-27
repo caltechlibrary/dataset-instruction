@@ -71,10 +71,10 @@ records of interest. <em>dsfind</em> can return results in several formats inclu
 keys and review those to see how we might want to index our collection. To do this I will be a random
 sample of five records from our collection.</p>
 
-<pre><code>    dataset -sample 5 keys &gt; sample.keys
+<pre><code>    dataset -sample 5 keys &gt; sample1.keys
     while read KY; do
         dataset -pretty read &quot;$KY&quot; | more
-    done &lt;sample.keys
+    done &lt;sample1.keys
 
 </code></pre>
 
@@ -94,7 +94,7 @@ is a JSON file. Create a JSON document called <code>title-abstract-author.json</
         },
         &quot;abstract&quot;: {
             &quot;object_path&quot;: &quot;.abstract&quot;
-        }
+        },
         &quot;given_name:&quot; {
             &quot;object_path&quot;: &quot;.creators.item[:].given_name&quot;
         },
@@ -123,9 +123,11 @@ field took up nearly 200 meg of dispace).</p>
 
 <p>Normally you don&rsquo;t start by indexing the whole collection. You index just a sample to make
 sure everything is working. Once the index structure is as you like it then you start the
-index for the entire collection.</p>
+index for the entire collection. In the next example we first create a new key list sample
+then index the collection using the key list.</p>
 
-<pre><code>    dsindexer -key-file=sample.keys abstract.json abstract.bleve
+<pre><code>    dataset -sample 2500 keys &gt; sample2.keys
+    dsindexer -key-file=sample1.keys title-abstract-authors.json title-abstract-authors.bleve
 </code></pre>
 
 <p>Updating or deleting records from an an index can be slower then creating a new one under many
@@ -140,7 +142,7 @@ a relational database query we can find approximate matches as well as narrow re
 to specific fields and phrases. Dataset index use the <a href="https://blevesearch.com">Bleve</a>
 search platform which uses a query syntax similar to Elastic Search.</p>
 
-<pre><code>    dsfind abstract.bleve &quot;Calcium Carbinate&quot;
+<pre><code>    dsfind abstract.bleve &quot;calcium carbinate&quot;
 </code></pre>
 
 <p>Previous: <a href="01-basic-dataset.html">Basic Dataset</a></p>
