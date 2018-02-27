@@ -61,27 +61,24 @@ with fewer fields are quicker to build.
 
 To tell _dsindexer_ how to index we need a map. A map describes the relationship between data fields (e.g. a title,
 an abstract) and how the indexer should treat those fields.  The simple index format supported by _dsindexer_ 
-is a JSON file. Create a JSON document called `title-abstract-author.json`.
+is a JSON file. Create a JSON document called `title-author.json`.
 
 ```
     {
         "title": {
             "object_path": ".title"
         },
-        "abstract": {
-            "object_path": ".abstract"
-        },
         "given_name": {
-            "object_path": ".creators.item[:].given_name"
+            "object_path": ".creators[:].given_name"
         },
         "family_name": {
-            "object_path": ".creators.item[:].family_name"
+            "object_path": ".creators[:].family_name"
         },
         "author_id": {
-            "object_path": ".creators.item[:].id"
+            "object_path": ".creators[:].id"
         },
         "orcid": {
-            "object_path": ".creators.item[:].orcid"
+            "object_path": ".creators[:].orcid"
         }
     }
 ```
@@ -91,7 +88,7 @@ is a JSON file. Create a JSON document called `title-abstract-author.json`.
 To create we use _dsindexer_ giving it the index name and the map document name.
 
 ```
-    dsindexer title-abstract-authors.json title-abstract-authors.bleve
+    dsindexer title-authors.json title-authors.bleve
 ```
 
 This command will take a while to run (hours on my desktop system, indexing only the title

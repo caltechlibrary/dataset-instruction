@@ -81,26 +81,23 @@ with fewer fields are quicker to build.</p>
 
 <p>To tell <em>dsindexer</em> how to index we need a map. A map describes the relationship between data fields (e.g. a title,
 an abstract) and how the indexer should treat those fields.  The simple index format supported by <em>dsindexer</em>
-is a JSON file. Create a JSON document called <code>title-abstract-author.json</code>.</p>
+is a JSON file. Create a JSON document called <code>title-author.json</code>.</p>
 
 <pre><code>    {
         &quot;title&quot;: {
             &quot;object_path&quot;: &quot;.title&quot;
         },
-        &quot;abstract&quot;: {
-            &quot;object_path&quot;: &quot;.abstract&quot;
-        },
         &quot;given_name&quot;: {
-            &quot;object_path&quot;: &quot;.creators.item[:].given_name&quot;
+            &quot;object_path&quot;: &quot;.creators[:].given_name&quot;
         },
         &quot;family_name&quot;: {
-            &quot;object_path&quot;: &quot;.creators.item[:].family_name&quot;
+            &quot;object_path&quot;: &quot;.creators[:].family_name&quot;
         },
         &quot;author_id&quot;: {
-            &quot;object_path&quot;: &quot;.creators.item[:].id&quot;
+            &quot;object_path&quot;: &quot;.creators[:].id&quot;
         },
         &quot;orcid&quot;: {
-            &quot;object_path&quot;: &quot;.creators.item[:].orcid&quot;
+            &quot;object_path&quot;: &quot;.creators[:].orcid&quot;
         }
     }
 </code></pre>
@@ -109,7 +106,7 @@ is a JSON file. Create a JSON document called <code>title-abstract-author.json</
 
 <p>To create we use <em>dsindexer</em> giving it the index name and the map document name.</p>
 
-<pre><code>    dsindexer title-abstract-authors.json title-abstract-authors.bleve
+<pre><code>    dsindexer title-authors.json title-authors.bleve
 </code></pre>
 
 <p>This command will take a while to run (hours on my desktop system, indexing only the title
