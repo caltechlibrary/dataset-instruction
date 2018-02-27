@@ -27,17 +27,13 @@ faculty and other researchers at Caltech.  The repository is large so Caltech Li
 metadata of public records and stores them in as a _dataset_collection_. This will serve our purposes for a demonstrating
 working with a large collection of data.
 
----
-
-FIXME: this heading organization isn't correct...
-
 ## Basic Operations
 
-### Overview
 
-First we need to decide how we want to index. Next create our index definition (our Index map) and then
-use _dsindexer_ to index the CaltechAUTHORS collection. Finally we will query our index with _dsfind_ to beable to identify 
-records of interest. _dsfind_ can return results in several formats including plain text, JSON and CSV.
+First we need to decide how we want to index. Next we create our index definition (map)  and
+use _dsindexer_ to index the CaltechAUTHORS collection. Finally we will query our index with _dsfind_ to identify 
+records of interest. _dsfind_ can return results in several formats including
+plain text, JSON and CSV. First we set that we're working with CaltechAUTHORS
 
 ```
     export DATASET="CaltechAUTHORS.ds"
@@ -46,8 +42,8 @@ records of interest. _dsfind_ can return results in several formats including pl
 ### Deciding what to index
 
 We have already seen how we have used _dataset_ to list the keys in a collection. We can get a sampling of
-keys and review those to see how we might want to index our collection. To do this I will be a random
-sample of five records from our collection.
+keys and review those to see how we might want to index our collection. Run the
+following script to get a random sample of five records from our collection:
 
 ```
     dataset -sample 5 keys > sample1.keys
@@ -57,7 +53,7 @@ sample of five records from our collection.
 
 ```
 
-The `.abstract` field looks interesting we can try indexing that. Indexes can be combined so if later we want
+The `.abstract` field looks interesting so we can try indexing that. Indexes can be combined so if later we want
 to also include `.title` or `.publication` we can just create indexes for this. Generally speaking indexes
 with fewer fields are quicker to build.
 

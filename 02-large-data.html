@@ -50,17 +50,12 @@ faculty and other researchers at Caltech.  The repository is large so Caltech Li
 metadata of public records and stores them in as a _dataset<em>collection</em>. This will serve our purposes for a demonstrating
 working with a large collection of data.</p>
 
-<hr />
-
-<p>FIXME: this heading organization isn&rsquo;t correct&hellip;</p>
-
 <h2>Basic Operations</h2>
 
-<h3>Overview</h3>
-
-<p>First we need to decide how we want to index. Next create our index definition (our Index map) and then
-use <em>dsindexer</em> to index the CaltechAUTHORS collection. Finally we will query our index with <em>dsfind</em> to beable to identify
-records of interest. <em>dsfind</em> can return results in several formats including plain text, JSON and CSV.</p>
+<p>First we need to decide how we want to index. Next we create our index definition (map)  and
+use <em>dsindexer</em> to index the CaltechAUTHORS collection. Finally we will query our index with <em>dsfind</em> to identify
+records of interest. <em>dsfind</em> can return results in several formats including
+plain text, JSON and CSV. First we set that we&rsquo;re working with CaltechAUTHORS</p>
 
 <pre><code>    export DATASET=&quot;CaltechAUTHORS.ds&quot;
 </code></pre>
@@ -68,8 +63,8 @@ records of interest. <em>dsfind</em> can return results in several formats inclu
 <h3>Deciding what to index</h3>
 
 <p>We have already seen how we have used <em>dataset</em> to list the keys in a collection. We can get a sampling of
-keys and review those to see how we might want to index our collection. To do this I will be a random
-sample of five records from our collection.</p>
+keys and review those to see how we might want to index our collection. Run the
+following script to get a random sample of five records from our collection:</p>
 
 <pre><code>    dataset -sample 5 keys &gt; sample1.keys
     while read KY; do
@@ -78,7 +73,7 @@ sample of five records from our collection.</p>
 
 </code></pre>
 
-<p>The <code>.abstract</code> field looks interesting we can try indexing that. Indexes can be combined so if later we want
+<p>The <code>.abstract</code> field looks interesting so we can try indexing that. Indexes can be combined so if later we want
 to also include <code>.title</code> or <code>.publication</code> we can just create indexes for this. Generally speaking indexes
 with fewer fields are quicker to build.</p>
 
