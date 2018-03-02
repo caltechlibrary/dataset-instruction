@@ -36,8 +36,8 @@
 
 <h2>Dataset</h2>
 
-<p>This section of the lesson will expand on our previous example using two additional tools that
-come with <em>dataset</em>. The two are <em>dsindexer</em> and <em>dsfind</em>. The former creates a full text
+<p>This section of the lesson will expand on our previous example using two additional commands that
+come with <em>dataset</em>. The two are <em>dataset indexer</em> and <em>dataset find</em>. The former creates a full text
 index and the latter lets you search that index and retrieve the results in various forms
 (e.g. plain text, JSON, CSV).</p>
 
@@ -53,8 +53,8 @@ working with a large collection of data.</p>
 <h2>Basic Operations</h2>
 
 <p>First we need to decide how we want to index. Next we create our index definition (map)  and
-use <em>dsindexer</em> to index the CaltechAUTHORS collection. Finally we will query our index with <em>dsfind</em> to identify
-records of interest. <em>dsfind</em> can return results in several formats including
+use <em>dataset indexer</em> to index the CaltechAUTHORS collection. Finally we will query our index with <em>dataset find</em> to identify
+records of interest. <em>dataset find</em> can return results in several formats including
 plain text, JSON and CSV. First we set that we&rsquo;re working with CaltechAUTHORS</p>
 
 <pre><code>    export DATASET=&quot;CaltechAUTHORS.ds&quot;
@@ -79,8 +79,8 @@ with fewer fields are quicker to build.</p>
 
 <h3>Creating an index map</h3>
 
-<p>To tell <em>dsindexer</em> how to index we need a map. A map describes the relationship between data fields (e.g. a title,
-an abstract) and how the indexer should treat those fields.  The simple index format supported by <em>dsindexer</em>
+<p>To tell <em>dataset indexer</em> how to index we need a map. A map describes the relationship between data fields (e.g. a title,
+an abstract) and how the indexer should treat those fields.  The simple index format supported by <em>dataset indexer</em>
 is a JSON file. Create a JSON document called <code>title-author.json</code>.</p>
 
 <pre><code>    {
@@ -104,9 +104,9 @@ is a JSON file. Create a JSON document called <code>title-author.json</code>.</p
 
 <h3>Creating the index</h3>
 
-<p>To create we use <em>dsindexer</em> giving it the index name and the map document name.</p>
+<p>To create we use <em>dataset indexer</em> giving it the index name and the map document name.</p>
 
-<pre><code>    dsindexer title-authors.json title-authors.bleve
+<pre><code>    dataset indexer title-authors.json title-authors.bleve
 </code></pre>
 
 <p>Depending on the data, this command might take awhile to run.  Authors and
@@ -129,7 +129,7 @@ then index the collection using the key list.  Save this as abstract.json</p>
 <p>Then run these commands:</p>
 
 <pre><code>    dataset -sample 2500 keys &gt; sample2.keys
-    dsindexer -key-file=sample2.keys abstract.json abstract.bleve
+    dataset indexer -key-file=sample2.keys abstract.json abstract.bleve
 </code></pre>
 
 <p>You can also update or delete records from an index.  However this can be slower then creating a new one under many
@@ -143,8 +143,8 @@ a relational database query we can find approximate matches as well as narrow re
 to specific fields and phrases. Dataset index use the <a href="https://blevesearch.com">Bleve</a>
 search platform which uses a query syntax similar to Elastic Search.</p>
 
-<pre><code>    dsfind title-authors.bleve &quot;calcium carbonate&quot;
-    dsfind title-authors.bleve author_id:Readhead-A-C-S
+<pre><code>    dataset find title-authors.bleve &quot;calcium carbonate&quot;
+    dataset find title-authors.bleve author_id:Readhead-A-C-S
 </code></pre>
 
 <p>Previous: <a href="01-basic-dataset.html">Basic Dataset</a></p>

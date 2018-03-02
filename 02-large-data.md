@@ -13,8 +13,8 @@ Learning Objectives:
 
 ## Dataset
 
-This section of the lesson will expand on our previous example using two additional tools that 
-come with _dataset_. The two are _dsindexer_ and _dsfind_. The former creates a full text 
+This section of the lesson will expand on our previous example using two additional commands that 
+come with _dataset_. The two are _dataset indexer_ and _dataset find_. The former creates a full text 
 index and the latter lets you search that index and retrieve the results in various forms
 (e.g. plain text, JSON, CSV).
 
@@ -31,8 +31,8 @@ working with a large collection of data.
 
 
 First we need to decide how we want to index. Next we create our index definition (map)  and
-use _dsindexer_ to index the CaltechAUTHORS collection. Finally we will query our index with _dsfind_ to identify 
-records of interest. _dsfind_ can return results in several formats including
+use _dataset indexer_ to index the CaltechAUTHORS collection. Finally we will query our index with _dataset find_ to identify 
+records of interest. _dataset find_ can return results in several formats including
 plain text, JSON and CSV. First we set that we're working with CaltechAUTHORS
 
 ```
@@ -59,8 +59,8 @@ with fewer fields are quicker to build.
 
 ### Creating an index map
 
-To tell _dsindexer_ how to index we need a map. A map describes the relationship between data fields (e.g. a title,
-an abstract) and how the indexer should treat those fields.  The simple index format supported by _dsindexer_ 
+To tell _dataset indexer_ how to index we need a map. A map describes the relationship between data fields (e.g. a title,
+an abstract) and how the indexer should treat those fields.  The simple index format supported by _dataset indexer_ 
 is a JSON file. Create a JSON document called `title-author.json`.
 
 ```
@@ -85,10 +85,10 @@ is a JSON file. Create a JSON document called `title-author.json`.
 
 ### Creating the index
 
-To create we use _dsindexer_ giving it the index name and the map document name.
+To create we use _dataset indexer_ giving it the index name and the map document name.
 
 ```
-    dsindexer title-authors.json title-authors.bleve
+    dataset indexer title-authors.json title-authors.bleve
 ```
 
 Depending on the data, this command might take awhile to run.  Authors and
@@ -113,7 +113,7 @@ Then run these commands:
 
 ```
     dataset -sample 2500 keys > sample2.keys
-    dsindexer -key-file=sample2.keys abstract.json abstract.bleve
+    dataset indexer -key-file=sample2.keys abstract.json abstract.bleve
 ```
 
 You can also update or delete records from an index.  However this can be slower then creating a new one under many
@@ -129,8 +129,8 @@ to specific fields and phrases. Dataset index use the [Bleve](https://blevesearc
 search platform which uses a query syntax similar to Elastic Search.
 
 ```
-    dsfind title-authors.bleve "calcium carbonate"
-    dsfind title-authors.bleve author_id:Readhead-A-C-S
+    dataset find title-authors.bleve "calcium carbonate"
+    dataset find title-authors.bleve author_id:Readhead-A-C-S
 ```
 
 
